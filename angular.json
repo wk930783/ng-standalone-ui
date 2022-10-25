@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ng-standalone-ui": {
+    "ng-standalone-ui-test": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ng-standalone-ui",
+            "outputPath": "dist/ng-standalone-ui-test",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ng-standalone-ui:build:production"
+              "browserTarget": "ng-standalone-ui-test:build:production"
             },
             "development": {
-              "browserTarget": "ng-standalone-ui:build:development"
+              "browserTarget": "ng-standalone-ui-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ng-standalone-ui:build"
+            "browserTarget": "ng-standalone-ui-test:build"
           }
         },
         "test": {
@@ -99,6 +99,42 @@
           }
         }
       }
+    },
+    "ng-standalone-ui": {
+      "projectType": "library",
+      "root": "projects/ng-standalone-ui",
+      "sourceRoot": "projects/ng-standalone-ui/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ng-standalone-ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ng-standalone-ui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ng-standalone-ui/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/ng-standalone-ui/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
